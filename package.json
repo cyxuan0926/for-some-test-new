@@ -9,7 +9,8 @@
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js",
-    "deploy:github": "npm run build && push-dir --dir=dist --branch=gh-pages --remote=cy --cleanup"
+    "build:github": "cross-env BUILD_ENV=github node build/build.js",
+    "deploy:github": "npm run build:github && push-dir --dir=dist --branch=gh-pages --remote=cy --cleanup"
   },
   "dependencies": {
     "path-to-regexp": "^6.1.0",

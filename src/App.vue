@@ -362,7 +362,7 @@ export default {
   //   elTableRewrite
   // },
   mounted () {
-    console.log(111, this.$root)
+    // console.log(111, this.$root)
     // this.$message.success('图片上传成功')
     // const g2plot = require('@antv/g2plot')
     // const data = [

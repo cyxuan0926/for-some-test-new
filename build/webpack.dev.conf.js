@@ -56,7 +56,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
      */
     new webpack.DefinePlugin({
       'process.env': require('../config/dev.env'),
-      'process.env.BUILD_ENV': JSON.stringify(process.env.BUILD_ENV),
+      'BUILD_ENV': JSON.stringify(process.env.BUILD_ENV),
       Paasasas: JSON.stringify(true),
       VERSION: JSON.stringify('ddddd'),
       TWO: '1+1',
