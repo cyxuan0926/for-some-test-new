@@ -40,7 +40,7 @@ axios.defaults.withCredentials = true
 // axios.defaults.withCredentials = true
 axios.defaults.baseURL = 'http://localhost:1339'
 // eslint-disable-next-line
-console.log(process.env, process.env.BUILD_ENV, Paasasas, VERSION, TWO, typeof global)
+// console.log(process.env, process.env.BUILD_ENV, Paasasas, VERSION, TWO, typeof global)
 // 120.79.67.25
 // axios.defaults.headers.common['Authorization'] = '523b87c4419da5f9186dbe8aa90f37a3876b95e448fe2a'
 Vue.config.productionTip = false
