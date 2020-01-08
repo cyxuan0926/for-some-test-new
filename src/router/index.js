@@ -1,11 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import {routes as cropperUpload} from '../components'
-// eslint-disable-next-line
-const env = BUILD_ENV
+
 Vue.use(Router)
+
 export default new Router({
-  base: env === 'github' ? '/for-some-test-new' : '/',
   mode: 'history',
   routes: [
     ...cropperUpload

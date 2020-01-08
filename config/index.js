@@ -4,6 +4,12 @@
 
 const path = require('path')
 
+// eslint-disable-next-line
+
+const env = process.env.BUILD_ENV
+
+console.log('asdasda',env)
+
 module.exports = {
   dev: {
 
@@ -60,7 +66,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: env === 'github' ? './' : '/',
 
     /**
      * Source Maps
