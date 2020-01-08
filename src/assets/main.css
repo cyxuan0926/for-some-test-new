@@ -1,0 +1,17 @@
+.viewer-prev::before {
+   content: '' !important;
+ }
+.viewer-prev {
+  width: 0px !important;
+  /*opacity: 0 !important;*/
+}
+.viewer-next::before {
+  content: '' !important;
+}
+.viewer-next {
+  width: 0px !important;
+  /*opacity: 0 !important;*/
+}
+.viewer-footer {
+  bottom: 12%;
+}
