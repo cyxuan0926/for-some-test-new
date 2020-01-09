@@ -8,8 +8,6 @@ const path = require('path')
 
 const env = process.env.BUILD_ENV
 
-console.log('asdasda',env)
-
 module.exports = {
   dev: {
 

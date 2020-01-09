@@ -4,7 +4,16 @@
       :vertical-compact="true      :margin="[10, 10]" -->
   <div id="app" >
     <router-view />
-    <el-button type="primary">深大路口的</el-button>
+    <el-table
+      stripe
+      :data="rowspanTableData"
+      :span-method="objectSpanMethod">
+      <el-table-column label="标识" prop="id" />
+      <el-table-column label="姓名" prop="name" />
+      <el-table-column label="年龄" prop="age" />
+      <el-table-column label="兴趣" prop="interest" />
+    </el-table>
+    <!-- <el-button type="primary">深大路口的</el-button> -->
     <!-- <button @click="handel" style="background:#606266">ad</button> -->
     <!-- <el-image src="http://120.78.190.101:1339/image-server/avatars/20190517144425-1558075466192.jpg?token=523b87c4419da5f9186dbe8aa90f37a3876b95e448fe2a"/> -->
     <!-- <div style="width: 60%;margin-left:10%;margin-top:5%">
@@ -122,7 +131,7 @@
       <template #duration="scope">{{ scope.toShow.duration | time }}</template>
     </m-slots> -->
     <!-- <jsx-component v-bind="{ id: 'someProp', a: '222' }"></jsx-component> -->
-    <provide-inject-component/>
+    <!-- <provide-inject-component/> -->
     <!-- <h1>{{foo}}</h1> -->
   </div>
 </template>
@@ -200,10 +209,47 @@ export default {
         {x: 1, y: 1, w: 1, h: 1, i: '4', name: 'cy4', order: 4}, {x: 2, y: 1, w: 1, h: 1, i: '5', name: 'cy5', order: 5}, {x: 0, y: 2, w: 1, h: 1, i: '6', name: 'cy6', order: 6},
         {x: 1, y: 2, w: 1, h: 1, i: '7', name: 'cy7', order: 7}, {x: 2, y: 2, w: 1, h: 1, i: '8', name: 'cy8', order: 8}],
       orignLayout: tettt,
-      recordArray: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+      recordArray: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+      rowspanTableData: [{
+        id: '1',
+        name: 'cy1',
+        age: 24,
+        interest: 'basketball1'
+      }, {
+        id: '2',
+        name: 'cy2',
+        age: 25,
+        interest: 'basketball2'
+      }, {
+        id: '3',
+        name: 'cy3',
+        age: 26,
+        interest: 'basketball3'
+      }, {
+        id: '4',
+        name: 'cy4',
+        age: 27,
+        interest: 'basketball4'
+      }]
     }
   },
   methods: {
+    objectSpanMethod ({ row, column, rowIndex, columnIndex }) {
+      console.log(row, column, rowIndex, columnIndex)
+      if (columnIndex === 0) {
+        if (rowIndex % 2 === 0) {
+          return {
+            rowspan: 2,
+            colspan: 1
+          }
+        } else {
+          return {
+            rowspan: 0,
+            colspan: 0
+          }
+        }
+      }
+    },
     handel () {
       this.$router.push('/http-demo')
     },
