@@ -5,13 +5,31 @@
   <div id="app" >
     <router-view />
     <el-table
-      stripe
+      border
       :data="rowspanTableData"
-      :span-method="objectSpanMethod">
+      :cell-class-name="cellClassName" >
       <el-table-column label="标识" prop="id" />
       <el-table-column label="姓名" prop="name" />
       <el-table-column label="年龄" prop="age" />
+      <el-table-column label="开始时间">
+        <template slot-scope="scope" v-if="scope.row.startDate && scope.row.startDate.length">
+          <el-col v-for="(item, index) in scope.row.startDate" :key="index + item + scope.row.id"  :class="['el-col-test', !item ? 'padding-20' : '']">{{item}}</el-col>
+        </template>
+      </el-table-column>
+      <el-table-column label="结束时间时间">
+      </el-table-column>
       <el-table-column label="兴趣" prop="interest" />
+    </el-table>
+    <h1>rowSpan</h1>
+    <el-table
+      :data="testTableData"
+      border
+      :span-method="objectSpanMethod">
+      <el-table-column prop="temp" label="序号" />
+      <el-table-column label="标识" prop="id" />
+      <el-table-column label="开始时间" prop="startDate" />
+      <el-table-column label="结束时间" prop="endDate" />
+      <el-table-column label="时长" prop="duration"/>
     </el-table>
     <!-- <el-button type="primary">深大路口的</el-button> -->
     <!-- <button @click="handel" style="background:#606266">ad</button> -->
@@ -188,6 +206,7 @@ export default {
       {x: 1, y: 1, w: 1, h: 1, i: '4', name: 'cy4', order: 4}, {x: 2, y: 1, w: 1, h: 1, i: '5', name: 'cy5', order: 5}, {x: 0, y: 2, w: 1, h: 1, i: '6', name: 'cy6', order: 6},
       {x: 1, y: 2, w: 1, h: 1, i: '7', name: 'cy7', order: 7}, {x: 2, y: 2, w: 1, h: 1, i: '8', name: 'cy8', order: 8}].slice(0)
     return {
+      testTableData: [],
       // dynamicSlotName: 'default',
       // items: [{ slotName: 'header' }, { slotName: 'footer' }]
       testFamilyShow: [{ label: '与囚犯关系', prop: 'relationship', style: { width: '100%' } }, { label: '预约时间', prop: 'meetingTime' }, { label: '终端号', prop: 'terminalNumber' },
@@ -214,32 +233,44 @@ export default {
         id: '1',
         name: 'cy1',
         age: 24,
+        startDate: ['2019-12-31 20:27:49'],
+        endDate: '2019-12-31 20:27:49',
         interest: 'basketball1'
       }, {
         id: '2',
         name: 'cy2',
         age: 25,
+        startDate: ['2019-12-31 20:27:49', '2019-12-31 20:55:03'],
+        endDate: '2019-12-31 20:27:49 == 2019-12-31 20:55:03',
         interest: 'basketball2'
       }, {
         id: '3',
         name: 'cy3',
         age: 26,
-        interest: 'basketball3'
+        interest: 'basketball3',
+        startDate: ['2019-12-31 20:27:49', '2019-12-31 20:55:03'],
+        endDate: '2019-12-31 20:28:00 == 2019-12-31 20:56:03'
       }, {
         id: '4',
         name: 'cy4',
         age: 27,
+        startDate: ['2019-12-31 20:27:49', '2019-12-31 20:29:34', ''],
+        endDate: '2019-12-31 20:27:49 == 2019-12-31',
         interest: 'basketball4'
       }]
     }
   },
   methods: {
+    cellClassName ({row, column, rowIndex, columnIndex}) {
+      if (columnIndex === 3) {
+        return 'no-pandding__td'
+      }
+    },
     objectSpanMethod ({ row, column, rowIndex, columnIndex }) {
-      console.log(row, column, rowIndex, columnIndex)
-      if (columnIndex === 0) {
-        if (rowIndex % 2 === 0) {
+      if (column.property === 'id' || column.property === 'temp') {
+        if (row.orderNumber % row.count === 0) {
           return {
-            rowspan: 2,
+            rowspan: row.count,
             colspan: 1
           }
         } else {
@@ -408,6 +439,84 @@ export default {
   //   elTableRewrite
   // },
   mounted () {
+    const testData = [
+      {
+        id: 1,
+        startDate: '2019-09-01 12:23:45==2019-09-01 12:26:45==2019-09-01 12:34:32',
+        endDate: '2019-09-01 12:25:45==2019-09-01 12:27:45==2019-09-01 12:35:32',
+        duration: '12==23==34'
+      },
+      {
+        id: 2,
+        startDate: '2019-09-01 12:23:45',
+        endDate: '2019-09-01 12:25:45',
+        duration: '12'
+      },
+      {
+        id: 3,
+        startDate: '2019-09-01 12:23:45==2019-09-01 12:26:45',
+        endDate: '2019-09-01 12:25:45==2019-09-01 12:27:45',
+        duration: '12==2'
+      },
+      {
+        id: 4,
+        startDate: '2019-09-01 12:23:45==2019-09-01 12:26:45',
+        endDate: '2019-09-01 12:25:45==2019-09-01 12:27:45',
+        duration: '12==23'
+      },
+      {
+        id: 5,
+        startDate: '2019-09-01 12:23:45==2019-09-01 12:26:45==2019-09-01 12:34:32',
+        endDate: '2019-09-01 12:25:45==2019-09-01 12:27:45==2019-09-01 12:35:32',
+        duration: '13==24==33'
+      },
+      {
+        id: 6,
+        startDate: '2019-09-01 12:23:45',
+        endDate: '2019-09-01 12:25:45',
+        duration: '12'
+      },
+      {
+        id: 7,
+        startDate: '2019-09-01 12:23:45==2019-09-01 12:26:45==2019-09-01 12:34:32',
+        endDate: '2019-09-01 12:25:45==2019-09-01 12:27:45==2019-09-01 12:35:32',
+        duration: '12==23==34'
+      },
+      {
+        id: 8,
+        startDate: '2019-09-01 12:23:45==2019-09-01 12:26:45==2019-09-01 12:34:32',
+        endDate: '2019-09-01 12:25:45==2019-09-01 12:27:45==2019-09-01 12:35:32',
+        duration: '12==23==34'
+      },
+      {
+        id: 9,
+        startDate: '2019-09-01 12:23:45==2019-09-01 12:26:45==2019-09-01 12:34:32',
+        endDate: '2019-09-01 12:25:45==2019-09-01 12:27:45==Data',
+        duration: '12==23==34'
+      }
+    ]
+    // eslint-disable-next-line
+    const result = testData.map((item, index) => {
+      let temp = {}
+      for (let [keys, values] of Object.entries(item)) {
+        if (keys !== 'id') temp = Object.assign({}, temp, {[keys]: values.replace(/Banck_Data/ig, '').split('==')})
+        else temp = Object.assign({}, temp, {[keys]: values})
+      }
+      return temp
+    })
+    const result2 = testData.map((item, num) => {
+      let temp = {}
+      for (let [keys, values] of Object.entries(item)) {
+        if (keys !== 'id') temp = Object.assign({}, temp, {[keys]: values.replace(/Data/ig, '').split('==')})
+        else temp = Object.assign({}, temp, {[keys]: values})
+      }
+      return temp['startDate'].map((item, index) => {
+        return Object.assign({}, {count: temp['startDate'].length, orderNumber: index, temp: num + 1}, temp, {startDate: item, endDate: temp['endDate'][index], duration: temp['duration'][index]})
+      })
+    })
+    this.testTableData = result2.flat()
+    console.log(this.testTableData)
+    // console.log(this.rowspanTableData[2].startDate.split('=='))
     // console.log(111, this.$root)
     // this.$message.success('图片上传成功')
     // const g2plot = require('@antv/g2plot')
@@ -469,6 +578,22 @@ export default {
 </script>
 
 <style scoped>
+.el-table >>> .no-pandding__td {
+  padding: 0px !important;
+}
+.el-table >>> .no-pandding__td > .cell {
+    padding: 0px !important;
+  }
+.el-table >>> .el-col-test {
+   padding: 12px;
+   border-bottom: 1px solid #EBEEF5;
+}
+.el-table >>> .padding-20 {
+  padding: 22.5px;
+}
+.el-col-test:last-child {
+  border-bottom: 0 !important;
+}
 .test {
   border-top:  1px solid red;
   border-left: 1px solid red;
