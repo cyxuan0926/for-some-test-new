@@ -4,8 +4,22 @@
       :vertical-compact="true      :margin="[10, 10]" -->
   <div id="app" >
     <router-view />
-    <el-table
+    <el-table>
+      <el-table-column type="index" label="序号" />
+      <el-table-column label="监狱名称"></el-table-column>
+      <el-table-column label="会议号"></el-table-column>
+      <el-table-column label="会见开始时间"></el-table-column>
+      <el-table-column label="会见结束时间"></el-table-column>
+      <el-table-column label="会见时长"></el-table-column>
+      <el-table-column label="会见状态"></el-table-column>
+      <el-table-column label="挂断原因"></el-table-column>
+      <el-table-column label="紫荆会见开始时间"></el-table-column>
+      <el-table-column label="紫荆会见结束时间"></el-table-column>
+      <el-table-column label="紫荆会见时长"></el-table-column>
+    </el-table>
+    <!-- <el-table
       border
+      style="width: 60%"
       :data="rowspanTableData"
       :cell-class-name="cellClassName" >
       <el-table-column label="标识" prop="id" />
@@ -17,11 +31,14 @@
         </template>
       </el-table-column>
       <el-table-column label="结束时间时间">
+        <template slot-scope="scope" v-if="scope.row.endDate && scope.row.endDate.length">
+          <el-col v-for="(item, index) in scope.row.endDate" :key="index + item + scope.row.id"  :class="['el-col-test', !item ? 'padding-20' : '']">{{item}}</el-col>
+        </template>
       </el-table-column>
       <el-table-column label="兴趣" prop="interest" />
-    </el-table>
-    <h1>rowSpan</h1>
-    <el-table
+    </el-table> -->
+    <!-- <h1>rowSpan</h1> -->
+    <!-- <el-table
       :data="testTableData"
       border
       :span-method="objectSpanMethod">
@@ -30,7 +47,7 @@
       <el-table-column label="开始时间" prop="startDate" />
       <el-table-column label="结束时间" prop="endDate" />
       <el-table-column label="时长" prop="duration"/>
-    </el-table>
+    </el-table> -->
     <!-- <el-button type="primary">深大路口的</el-button> -->
     <!-- <button @click="handel" style="background:#606266">ad</button> -->
     <!-- <el-image src="http://120.78.190.101:1339/image-server/avatars/20190517144425-1558075466192.jpg?token=523b87c4419da5f9186dbe8aa90f37a3876b95e448fe2a"/> -->
@@ -148,7 +165,7 @@
       <template #status="scope">{{ scope.toShow.status | test1 }}</template>
       <template #duration="scope">{{ scope.toShow.duration | time }}</template>
     </m-slots> -->
-    <!-- <jsx-component v-bind="{ id: 'someProp', a: '222' }"></jsx-component> -->
+    <jsx-component v-bind="{ id: 'someProp', a: '222', class: 'cy', style: { color: 'red' } }"></jsx-component>
     <!-- <provide-inject-component/> -->
     <!-- <h1>{{foo}}</h1> -->
   </div>
@@ -195,6 +212,9 @@ import VueGridLayout from 'vue-grid-layout'
 // 访问父组件实例 和$root 类似 $parent 属性可以用来从一个子组件访问父组件的实例 它提供了一种机会 可以在后期随时触达父组件 以替代将数据以prop的方式传入子组件的方式
 // 在绝大多数情况下 触达父组件会使得你的应用更难调试和理解 尤其是当你变更了父组件的数据的时候 当我们稍后回看那个组件的时候 很难找出那个变更是从哪里发起的/ 依赖注入是个好东西
 // provide/inject：(provide： Object | () => Object / inject: Array<string> | {[key: string]: string | Symbol| Object }):主要为高阶插件/组件库提供用例 并不推荐直接用于应用程序代码中
+// 等会来试下这个 inheritAttrs 和 v-bind $attrs
+// 默认情况下父作用域的不被认作props的特性绑定(attribute binding)将会'回退'且作为普通的HTML特性应用在子元素的根元素上 当撰写包裹一个目标元素和另一个组件的组件时 这可能不会总是符合预期行为 通过inheritAttrs到false 这些默认行为将会被
+// 去掉 而 通过实例属性$attrs 可以让这些特性生效 且可以通过v-bind显性的绑定到非根元素上 注意 这个选项不影响class 和 style绑定
 export default {
   name: 'App',
   provide: {
@@ -206,6 +226,148 @@ export default {
       {x: 1, y: 1, w: 1, h: 1, i: '4', name: 'cy4', order: 4}, {x: 2, y: 1, w: 1, h: 1, i: '5', name: 'cy5', order: 5}, {x: 0, y: 2, w: 1, h: 1, i: '6', name: 'cy6', order: 6},
       {x: 1, y: 2, w: 1, h: 1, i: '7', name: 'cy7', order: 7}, {x: 2, y: 2, w: 1, h: 1, i: '8', name: 'cy8', order: 8}].slice(0)
     return {
+      truethTableData: [
+        {
+          STATUS: "CANCELED",
+          zijingStartTimeConcat: ['', ''],
+          zijingEndTimeConcat: ['', ''],
+          startTimeConcat: ['2019-04-28 11:16:44', '2019-04-28 15:21:42'],
+          mcstatusConcat: ['FINISHED', ''],
+          zijingDurationConcat: ['', ''],
+          jailName: '演示监狱',
+          meetingId: 1,
+          jailId: 2,
+          endTimeConcat: ['', '2019-04-28 15:28:43'],
+          remarksConcat: ['', '1123'],
+          durationConcat: ['', '421']
+        },
+        {
+          STATUS: "FINISHED",
+          zijingStartTimeConcat: [''],
+          zijingEndTimeConcat: [''],
+          startTimeConcat: ['2019-04-26 11:27:55'],
+          mcstatusConcat: ['FINISHED', ''],
+          zijingDurationConcat: ['', ''],
+          jailName: '演示监狱',
+          meetingId: 1,
+          jailId: 2,
+          endTimeConcat: ['', '2019-04-28 15:28:43'],
+          remarksConcat: ['', '1123'],
+          durationConcat: ['', '421']
+        },
+        {
+          STATUS: "CANCELED",
+          zijingStartTimeConcat: ['', ''],
+          zijingEndTimeConcat: ['', ''],
+          startTimeConcat: ['2019-04-28 11:16:44', '2019-04-28 15:21:42'],
+          mcstatusConcat: ['FINISHED', ''],
+          zijingDurationConcat: ['', ''],
+          jailName: '演示监狱',
+          meetingId: 1,
+          jailId: 2,
+          endTimeConcat: ['', '2019-04-28 15:28:43'],
+          remarksConcat: ['', '1123'],
+          durationConcat: ['', '421']
+        },
+        {
+          STATUS: "CANCELED",
+          zijingStartTimeConcat: ['', ''],
+          zijingEndTimeConcat: ['', ''],
+          startTimeConcat: ['2019-04-28 11:16:44', '2019-04-28 15:21:42'],
+          mcstatusConcat: ['FINISHED', ''],
+          zijingDurationConcat: ['', ''],
+          jailName: '演示监狱',
+          meetingId: 1,
+          jailId: 2,
+          endTimeConcat: ['', '2019-04-28 15:28:43'],
+          remarksConcat: ['', '1123'],
+          durationConcat: ['', '421']
+        },
+        {
+          STATUS: "CANCELED",
+          zijingStartTimeConcat: ['', ''],
+          zijingEndTimeConcat: ['', ''],
+          startTimeConcat: ['2019-04-28 11:16:44', '2019-04-28 15:21:42'],
+          mcstatusConcat: ['FINISHED', ''],
+          zijingDurationConcat: ['', ''],
+          jailName: '演示监狱',
+          meetingId: 1,
+          jailId: 2,
+          endTimeConcat: ['', '2019-04-28 15:28:43'],
+          remarksConcat: ['', '1123'],
+          durationConcat: ['', '421']
+        },
+        {
+          STATUS: "CANCELED",
+          zijingStartTimeConcat: ['', ''],
+          zijingEndTimeConcat: ['', ''],
+          startTimeConcat: ['2019-04-28 11:16:44', '2019-04-28 15:21:42'],
+          mcstatusConcat: ['FINISHED', ''],
+          zijingDurationConcat: ['', ''],
+          jailName: '演示监狱',
+          meetingId: 1,
+          jailId: 2,
+          endTimeConcat: ['', '2019-04-28 15:28:43'],
+          remarksConcat: ['', '1123'],
+          durationConcat: ['', '421']
+        },
+        {
+          STATUS: "CANCELED",
+          zijingStartTimeConcat: ['', ''],
+          zijingEndTimeConcat: ['', ''],
+          startTimeConcat: ['2019-04-28 11:16:44', '2019-04-28 15:21:42'],
+          mcstatusConcat: ['FINISHED', ''],
+          zijingDurationConcat: ['', ''],
+          jailName: '演示监狱',
+          meetingId: 1,
+          jailId: 2,
+          endTimeConcat: ['', '2019-04-28 15:28:43'],
+          remarksConcat: ['', '1123'],
+          durationConcat: ['', '421']
+        },
+        {
+          STATUS: "CANCELED",
+          zijingStartTimeConcat: ['', ''],
+          zijingEndTimeConcat: ['', ''],
+          startTimeConcat: ['2019-04-28 11:16:44', '2019-04-28 15:21:42'],
+          mcstatusConcat: ['FINISHED', ''],
+          zijingDurationConcat: ['', ''],
+          jailName: '演示监狱',
+          meetingId: 1,
+          jailId: 2,
+          endTimeConcat: ['', '2019-04-28 15:28:43'],
+          remarksConcat: ['', '1123'],
+          durationConcat: ['', '421']
+        },
+        {
+          STATUS: "CANCELED",
+          zijingStartTimeConcat: ['', ''],
+          zijingEndTimeConcat: ['', ''],
+          startTimeConcat: ['2019-04-28 11:16:44', '2019-04-28 15:21:42'],
+          mcstatusConcat: ['FINISHED', ''],
+          zijingDurationConcat: ['', ''],
+          jailName: '演示监狱',
+          meetingId: 1,
+          jailId: 2,
+          endTimeConcat: ['', '2019-04-28 15:28:43'],
+          remarksConcat: ['', '1123'],
+          durationConcat: ['', '421']
+        },
+        {
+          STATUS: "CANCELED",
+          zijingStartTimeConcat: ['', ''],
+          zijingEndTimeConcat: ['', ''],
+          startTimeConcat: ['2019-04-28 11:16:44', '2019-04-28 15:21:42'],
+          mcstatusConcat: ['FINISHED', ''],
+          zijingDurationConcat: ['', ''],
+          jailName: '演示监狱',
+          meetingId: 1,
+          jailId: 2,
+          endTimeConcat: ['', '2019-04-28 15:28:43'],
+          remarksConcat: ['', '1123'],
+          durationConcat: ['', '421']
+        }
+      ],
       testTableData: [],
       // dynamicSlotName: 'default',
       // items: [{ slotName: 'header' }, { slotName: 'footer' }]
@@ -234,14 +396,14 @@ export default {
         name: 'cy1',
         age: 24,
         startDate: ['2019-12-31 20:27:49'],
-        endDate: '2019-12-31 20:27:49',
+        endDate: ['2019-12-31 20:27:49'],
         interest: 'basketball1'
       }, {
         id: '2',
         name: 'cy2',
         age: 25,
         startDate: ['2019-12-31 20:27:49', '2019-12-31 20:55:03'],
-        endDate: '2019-12-31 20:27:49 == 2019-12-31 20:55:03',
+        endDate: ['2019-12-31 20:27:49', '2019-12-31 20:55:03'],
         interest: 'basketball2'
       }, {
         id: '3',
@@ -249,20 +411,20 @@ export default {
         age: 26,
         interest: 'basketball3',
         startDate: ['2019-12-31 20:27:49', '2019-12-31 20:55:03'],
-        endDate: '2019-12-31 20:28:00 == 2019-12-31 20:56:03'
+        endDate: ['2019-12-31 20:27:49', '2019-12-31 20:55:03']
       }, {
         id: '4',
         name: 'cy4',
         age: 27,
         startDate: ['2019-12-31 20:27:49', '2019-12-31 20:29:34', ''],
-        endDate: '2019-12-31 20:27:49 == 2019-12-31',
+        endDate: ['2019-12-31 20:27:49', '2019-12-31 20:29:34', ''],
         interest: 'basketball4'
       }]
     }
   },
   methods: {
     cellClassName ({row, column, rowIndex, columnIndex}) {
-      if (columnIndex === 3) {
+      if (columnIndex === 3 || columnIndex === 4) {
         return 'no-pandding__td'
       }
     },
@@ -348,6 +510,7 @@ export default {
     GridLayout: VueGridLayout.GridLayout,
     GridItem: VueGridLayout.GridItem,
     'jsx-component': {
+      inheritAttrs: false,
       render () {
         return <p>jsx component</p>
       }
